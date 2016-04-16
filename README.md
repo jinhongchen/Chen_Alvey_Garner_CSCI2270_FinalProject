@@ -16,3 +16,12 @@ for next step, thus, in order to reach the destination, it will select the lanes
 for that guy who has that signals ,(these signals cannot reach the signl outside that 
 range circle, so only the cities in that circles can be listed) and list all of these 
 paths. 
+
+Justin: When I thought of this project, I wanted to develop some sort of game for others to play.
+My idea is a mix of several ideas: to create a game that asks users survey/trivcia questions about
+popular movies. The user can choose to dine or go to different theaters in an area, and the different 
+regions will each have different movies to see. Different regions will have different movies, and 
+thus harder questions. The idea combines the idea of a graph (map of several cities, a class), a class
+of the movie inventory, a struct for each movie data structure, and public methods to add movies, 
+change regions, and others. They could be songs - like guess the lyrics, or stories where you answer
+trivia questoins about the story.  
