@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1461113996 source:/home/user/Desktop/Chen_Alvey_Garner_CSCI2270_FinalProject/verticesGraph/verticesGraph.cpp
+	"verticesGraph.h"
+	<fstream>
+	<sstream>
+	<queue>
+	<climits>
+	<stdlib.h>
+	<time.h>
+
+1460814064 /home/user/Desktop/Chen_Alvey_Garner_CSCI2270_FinalProject/verticesGraph/verticesGraph.h
+	<vector>
+	<iostream>
+
