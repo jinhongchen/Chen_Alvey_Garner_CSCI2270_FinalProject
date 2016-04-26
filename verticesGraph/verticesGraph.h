@@ -16,6 +16,7 @@ struct adjVertex
 struct service
 {
     std::string name;
+    std::string type;
     int cost;
 };
 
@@ -37,6 +38,7 @@ class verticesGraph
 {
     private:
         std::vector<vertex> vertices;
+        int milesTraveled;
     public:
         verticesGraph(char * fileName);
         verticesGraph();
@@ -53,8 +55,10 @@ class verticesGraph
         void addVertex(std::string name);
         void addEdge(std::string v1,std::string v2,int weight);
         void snakesAndLadders();
-        void addService(std::string name,std::string service, int cost);
+        void addService(std::string name,std::string service,std::string type, int cost);
+        service *findService(vertex *city, std::string type);
         void displayServices();
+        void planYourPath(std::string name,std::string endname, int distance);
         int findDistance(std::string v1,std::string v2);
         vertex * findVertex(std::string name);
         vertex * Dijkstra(std::string starting,std::string destination);
