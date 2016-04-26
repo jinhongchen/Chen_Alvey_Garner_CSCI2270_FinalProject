@@ -20,6 +20,7 @@ verticesGraph::verticesGraph(){};
 
 void verticesGraph::buildGraph(char * fileName)
 {
+    milesTraveled = 0;
     std::string firstLine,lines;
     std::string itemArray[20][20];
     int m=0,quantity=0;
@@ -252,6 +253,7 @@ void verticesGraph::limitedDistancePath(std::string starting,std::string destina
         if(m!=0)
         {
             std::cout<<path[m]->name<<" >>> "<<findDistance(path[m]->name,path[m-1]->name)<<" >>> ";
+
         }
         else
         {
@@ -382,7 +384,7 @@ int verticesGraph::findDistance(std::string v1,std::string v2)
     vertex * des=findVertex(v2);
     if(sta->district!=des->district)
     {
-        return -1;
+        return 0;
     }
     int distance;
     for(int m=0;m<vertices.size();m++)
@@ -457,28 +459,155 @@ void verticesGraph::displayServices(){
     for (int i=0; i<vertices.size();i++){
         //std::cout << vertices[i].services.size() << std::endl;
         if (vertices[i].services.size() > 0){
-            std::cout << vertices[i].district <<": "<<vertices[i].name<<"-->";
+            std::cout << vertices[i].district <<": "<<vertices[i].name<<"-->"<<std::endl;
             for (int j=0; j<vertices[i].services.size(); j++){
                 if(j==vertices[i].services.size()-1){
-                    std::cout<<vertices[i].services[j].name<<" - "<<"$"<<vertices[i].services[j].cost;
+                    std::cout<<vertices[i].services[j].type<<": "<<vertices[i].services[j].name<<" - "<<"$"<<vertices[i].services[j].cost<<std::endl;
                 }else{
-                    std::cout<<vertices[i].services[j].name<<" - "<<"$"<<vertices[i].services[j].cost<<", ";
+                    std::cout<<vertices[i].services[j].type<<": "<<vertices[i].services[j].name<<" - "<<"$"<<vertices[i].services[j].cost<<std::endl;
                 }
             }
             std::cout<<std::endl;
+        }else{
+            //std::cout << "No active services to display." << std::endl;
         }
     }
 }
 
-void verticesGraph::addService(std::string name,std::string serV, int cost){
+void verticesGraph::addService(std::string name,std::string serV,std::string type, int cost){
     service newServ;
 
     vertex *temp = findVertex(name);
     if (temp != NULL){
         newServ.name = serV;
         newServ.cost = cost;
+        newServ.type = type;
         temp->services.push_back(newServ);
     }else{
         std::cout << "This vertex does not exist." << std::endl;
+    }
+}
+
+service *verticesGraph::findService(vertex *city,std::string name){
+    for (int i=0; i<city->services.size();i++){
+        if (city->services[i].type == name){
+            return &city->services[i];
+        }
+    }
+}
+
+void verticesGraph::planYourPath(std::string starting,std::string destination,int distance)
+{
+    int totalMiles = 0;
+    if(findVertex(starting)==NULL||findVertex(destination)==NULL)
+    {
+        std::cout<<"At least one vertices doesn't exist"<<std::endl;
+        return;
+    }
+
+    vertex * sta=findVertex(starting);
+    vertex * des=findVertex(destination);
+    if(sta->district!=des->district)
+    {
+        std::cout<<"No path between two vertices"<<std::endl;
+        return;
+    }
+
+    if(vertices[0].district==-1)
+    {
+        std::cout<<"Please assign vertices' districts first"<<std::endl;
+        return;
+    }
+
+    if(distance<=0)
+    {
+        std::cout<<"distance must be greater than zero"<<std::endl;
+        return;
+    }
+
+    int m=vertices.size();
+
+    int previous[m];
+    for(int n=0;n<m;n++)
+    {
+        previous[n]=-1;
+        vertices[n].ID=n;
+    }
+
+    sta->visited=true;
+    vertex * v;
+    std::queue<vertex *> qv;
+    qv.push(sta);
+    while(!qv.empty())
+    {
+        v=qv.front();
+        qv.pop();
+        for(int m=0;m<v->adj.size();m++)
+        {
+            if(v->adj[m].v->visited==false)
+            {
+                if(v->adj[m].weight<=distance)
+                {
+                    previous[v->adj[m].v->ID]=v->ID;
+                    v->adj[m].v->visited=true;
+                    qv.push(v->adj[m].v);
+                }
+            }
+        }
+    }
+
+    std::vector<vertex *> path;
+    int pos=des->ID;
+    path.push_back(des);
+    while(previous[pos]!=-1)
+    {
+        pos=previous[pos];
+        path.push_back(findVertex(vertices[pos].name));
+    }
+
+    if(path[0]!=des||path[path.size()-1]!=sta)
+    {
+        std::cout<<"No path can be found"<<std::endl;
+        return;
+    }
+    std::cout <<std::endl;
+    std::cout<<"Trip: ";
+    for(int m=path.size()-1;m>-1;m--)
+    {
+        if(m!=0)
+        {
+            std::cout<<path[m]->name<<" >>> "<<findDistance(path[m]->name,path[m-1]->name)<<" >>> ";
+            milesTraveled = milesTraveled + findDistance(path[m]->name,path[m-1]->name);
+            totalMiles = totalMiles + milesTraveled;
+            if (milesTraveled >= 500){
+
+                service *stop = findService(path[m],"Gas Station");
+                std::cout << "Stop for Gas at: "<<stop->name<<", Cost: $"<< stop->cost<<" per Gallon"<<" >>> ";
+                service *food = findService(path[m],"Food");
+                std::cout << "Stop for Food at: "<<food->name<<", Cost: $"<< food->cost<<" for full meal."<<" >>> ";
+
+
+                if (milesTraveled >= 1500){
+                    service *hotel = findService(path[m],"Hotel");
+                    std::cout << "Stay the Night at: "<<hotel->name<<", Cost: $"<<hotel->cost<<" per night."<<" >>> ";
+                }else if (totalMiles >= 1500){
+                    service *hotel = findService(path[m],"Hotel");
+                    std::cout << "Stay the Night at: "<<hotel->name<<", Cost: $"<<hotel->cost<<" per night."<<" >>> ";
+                    totalMiles = 0;
+                }
+
+                milesTraveled = 0;
+            }
+        }
+        else
+        {
+            std::cout<<path[m]->name;
+        }
+    }
+    std::cout << std::endl;
+
+    for(int m=0;m<vertices.size();m++)
+    {
+        vertices[m].visited=false;
     }
 }
