@@ -9,6 +9,25 @@ int main(int argc, char * argv[])
     verticesGraph cg(fileName);
 
     string option="-1";
+    cg.addService("Boulder","PDQ","Gas Station",3);
+    cg.addService("Boulder","Best Western Plus","Hotel",400);
+    cg.addService("Boulder","Golden Sun","Food",20);
+    cg.addService("Boulder","Red Robin","Food",35);
+    cg.addService("Boston","Change for the Road","Gas Station",2);
+    cg.addService("Boston","Our House, Su House Too","Hotel",350);
+    cg.addService("Boston","East Coast Fish N Fry","Food",45);
+    cg.addService("Chicago","Windy Eats","Food",18);
+    cg.addService("Chicago","High-Rise Hotel 5 Stars","Hotel",750);
+    cg.addService("Chicago","Frank's Refill","Gas Station",4);
+    cg.addService("New Orleans","City Down By the Bay","Hotel",500);
+    cg.addService("New Orleans","Louisiana Livin","Food",30);
+    cg.addService("New Orleans","Oil from the Gulf","Gas Station",3);
+    cg.addService("Portland","Night Owls Inn","Hotel",550);
+    cg.addService("Portland","Food N Stuff","Food",30);
+    cg.addService("Portland","Buenas Noches","Hotel",350);
+    cg.addService("Portland","$2 a Barrel","Gas Station",2);
+    cg.addService("Seattle","Fish Mart","Food",40);
+
 
     while(option=="-1")
     {
@@ -46,7 +65,16 @@ int main(int argc, char * argv[])
             getline(cin,starting);
             cout<<"Enter an ending vertex: "<<endl;
             getline(cin,destination);
-            cout<<cg.findDistance(starting,destination)<<endl;
+            int check = cg.findDistance(starting,destination);
+            if (check > 0){
+                cout<<check<<endl;
+            }else{
+                if (check == -1){
+                    cout<<"At least one vertex doesn't exist."<<endl;
+                }else if (check == 0){
+                    cout<<"Cities are not in the same district"<<endl;
+                }
+            }
             option="-1";
         }
         else if(option=="4")
@@ -123,24 +151,37 @@ int main(int argc, char * argv[])
                 cout<<"----------"<<endl;
                 cout<<"1. Add a service"<<endl;
                 cout<<"2. Display services"<<endl;
+                cout<<"3. Plan a Trip"<<endl;
                 cout<<"0. Quit"<<endl;
                 cin>>option2;
 
                 if (option2 == "1"){
-                    string name, service;
+                    string name, service, type;
                     int cost;
                     cin.ignore();
                     cout <<"Enter the city name: "<<endl;
                     getline(cin,name);
                     cout <<"Enter the name of the service: "<<endl;
                     getline(cin,service);
+                    cout <<"Enter the type of service: "<<endl;
+                    getline(cin,type);
                     cout <<"Enter the cost: "<<endl;
                     cin>>cost;
-                    cg.addService(name,service,cost);
+                    cg.addService(name,service,type,cost);
                     option2 = "-1";
                 }else if (option2 == "2"){
                     cg.displayServices();
                     option2 = "-1";
+                }else if (option2 == "3"){
+                    cin.ignore();
+                    string starting,ending;
+                    cout <<"Enter starting city name: "<<endl;
+                    getline(cin,starting);
+                    cout <<"Enter ending city name: "<<endl;
+                    getline(cin,ending);
+                    cg.assignDistricts();
+                    int distance = 1500;
+                    cg.planYourPath(starting,ending,distance);
                 }
             }
             option = "-1";
