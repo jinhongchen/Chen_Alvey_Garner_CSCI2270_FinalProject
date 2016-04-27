@@ -13,20 +13,43 @@ int main(int argc, char * argv[])
     cg.addService("Boulder","Best Western Plus","Hotel",400);
     cg.addService("Boulder","Golden Sun","Food",20);
     cg.addService("Boulder","Red Robin","Food",35);
+
     cg.addService("Boston","Change for the Road","Gas Station",2);
     cg.addService("Boston","Our House, Su House Too","Hotel",350);
     cg.addService("Boston","East Coast Fish N Fry","Food",45);
+
     cg.addService("Chicago","Windy Eats","Food",18);
     cg.addService("Chicago","High-Rise Hotel 5 Stars","Hotel",750);
     cg.addService("Chicago","Frank's Refill","Gas Station",4);
+
+    cg.addService("Disneyland","Fairy Island BrunchHouse", "Food",45);
+    cg.addService("Disneyland","Disney Gas and Oil Stop","Gas Station",4);
+    cg.addService("Disneyland","Magic Castle Hotel","Hotel",600);
+
+    cg.addService("Miami","Sun Set Diner","Food",25);
+    cg.addService("Miami","Florida Gas","Gas Station",3);
+    cg.addService("Miami","Palm Tree Plus Inn","Hotel",650);
+
     cg.addService("New Orleans","City Down By the Bay","Hotel",500);
     cg.addService("New Orleans","Louisiana Livin","Food",30);
     cg.addService("New Orleans","Oil from the Gulf","Gas Station",3);
+
+    cg.addService("New York","Manhattan House","Hotel",500);
+    cg.addService("New York","City Escape Cafe and Grill","Food",25);
+    cg.addService("New York","NY Oil and Gas Stop","Gas Station",3);
+
     cg.addService("Portland","Night Owls Inn","Hotel",550);
     cg.addService("Portland","Food N Stuff","Food",30);
     cg.addService("Portland","Buenas Noches","Hotel",350);
     cg.addService("Portland","$2 a Barrel","Gas Station",2);
+
+    cg.addService("San Francisco","Seafood by the Bay","Food",37);
+    cg.addService("San Francisco","West Coast In and Suites","Hotel",525);
+    cg.addService("San Francisco","Shell and Co.","Gas Station",3);
+
     cg.addService("Seattle","Fish Mart","Food",40);
+    cg.addService("Seattle","Hawkeye Suites","Hotel",490);
+    cg.addService("Seattle","Seattle Gas Experts","Gas Station",3);
 
 
     while(option=="-1")
