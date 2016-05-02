@@ -133,6 +133,11 @@ void verticesGraph::shortestDistance(std::string starting,std::string destinatio
         std::cout<<"At least one vertex doesn't exist"<<std::endl;
         return;
     }
+    if(starting == destination) {
+        cout << "Shortest distance: 0" << endl;
+        cout << "path: " << starting << endl;
+        return;
+    }
 
     vertex * sta=findVertex(starting);
     vertex * des=findVertex(destination);
