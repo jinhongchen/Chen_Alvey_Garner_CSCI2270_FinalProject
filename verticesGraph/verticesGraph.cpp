@@ -173,7 +173,7 @@ void verticesGraph::shortestDistance(std::string starting,std::string destinatio
     }
 }
 
-void verticesGraph::limitedDistancePath(std::string starting,std::string destination,int distance)
+void verticesGraph::limitedDistancePath(std::string starting,std::string destination,std::string limit)
 {
     if(findVertex(starting)==NULL||findVertex(destination)==NULL)
     {
@@ -195,7 +195,16 @@ void verticesGraph::limitedDistancePath(std::string starting,std::string destina
         return;
     }
 
-    if(distance<=0)
+    std::stringstream ss(limit);
+    int d;
+    if(!(ss>>d))
+    {
+        std::cout<<"Invalid input"<<std::endl;
+        return;
+    }
+    ss>>d;
+
+    if(d<=0)
     {
         std::cout<<"distance must be greater than zero"<<std::endl;
         return;
@@ -222,7 +231,7 @@ void verticesGraph::limitedDistancePath(std::string starting,std::string destina
         {
             if(v->adj[m].v->visited==false)
             {
-                if(v->adj[m].weight<=distance)
+                if(v->adj[m].weight<=d)
                 {
                     previous[v->adj[m].v->ID]=v->ID;
                     v->adj[m].v->visited=true;

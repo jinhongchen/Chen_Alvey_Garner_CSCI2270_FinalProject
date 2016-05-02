@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 #include "verticesGraph.h"
 
 using namespace std;
@@ -113,16 +114,15 @@ int main(int argc, char * argv[])
         }
         else if(option=="5")
         {
-            string starting,destination;
-            int distance;
+            string starting,destination,limit;
             cin.ignore();
             cout<<"Enter a starting vertex: "<<endl;
             getline(cin,starting);
             cout<<"Enter a destination vertex: "<<endl;
             getline(cin,destination);
             cout<<"Enter distance limit: "<<endl;
-            cin>>distance;
-            cg.limitedDistancePath(starting,destination,distance);
+            getline(cin,limit);
+            cg.limitedDistancePath(starting,destination,limit);
             option="-1";
         }
         else if(option=="6")
@@ -188,9 +188,22 @@ int main(int argc, char * argv[])
                     getline(cin,service);
                     cout <<"Enter the type of service: "<<endl;
                     getline(cin,type);
-                    cout <<"Enter the cost: "<<endl;
-                    cin>>cost;
-                    cg.addService(name,service,type,cost);
+                    while (0==0)
+                    {
+                        cout <<"Enter the cost: "<<endl;
+                        cin>>cost;
+                        if(cost>0&&cost<INT_MAX)
+                        {
+                            cg.addService(name,service,type,cost);
+                            break;
+                        }
+                        else
+                        {
+                            std::cout<<"Invalid input"<<std::endl;
+                            cin.clear();
+                            cin.ignore(1000,'\n');
+                        }
+                    }
                     option2 = "-1";
                 }else if (option2 == "2"){
                     cg.displayServices();

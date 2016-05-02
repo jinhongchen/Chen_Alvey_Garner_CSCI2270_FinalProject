@@ -49,7 +49,7 @@ class verticesGraph
         void BFTraversalLabel(std::string starting,int distID);
         void displayEverything();
         void shortestDistance(std::string starting,std::string destination);
-        void limitedDistancePath(std::string starting,std::string destination,int distance);
+        void limitedDistancePath(std::string starting,std::string destination,std::string limit);
         void vertexInformation(std::string v1);
         void graphInformation();
         void addVertex(std::string name);
